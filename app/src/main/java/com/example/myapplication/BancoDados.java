@@ -2,8 +2,12 @@ package com.example.myapplication;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BancoDados extends SQLiteOpenHelper {
 
@@ -103,6 +107,61 @@ public class BancoDados extends SQLiteOpenHelper {
 
         db.insert(TABELA_ALUNO, null, values);
         db.close();
+
+    }
+
+    Curso selecionaCurso(int codigo) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABELA_CURSO, new String[]{COLUNA_CURSO_ID, COLUNA_NOME_CURSO, COLUNA_HORAS},
+                COLUNA_CURSO_ID + " = ?",
+                new String[]{String.valueOf(codigo)}, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        Curso curso = new Curso(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), Integer.parseInt(cursor.getString(2)));
+
+        return curso;
+    }
+
+    void atualizarCurso(Curso curso) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUNA_NOME_CURSO, curso.getNome());
+        values.put(COLUNA_HORAS, curso.getHoras());
+
+        db.update(TABELA_CURSO, values, COLUNA_CURSO_ID + " = ?",
+                new String[]{String.valueOf(curso.getCodigo())});
+        db.close();
+    }
+
+    public List<Curso> listarCursos() {
+        List<Curso> listaCursos = new ArrayList<Curso>();
+
+        String query = "SELECT * FROM " + TABELA_CURSO;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Curso curso = new Curso();
+                curso.setCodigo(Integer.parseInt(cursor.getString(0)));
+                curso.setNome(cursor.getString(1));
+                curso.setHoras(Integer.parseInt(cursor.getString(2)));
+
+                listaCursos.add(curso);
+            } while (cursor.moveToNext());
+        }
+
+        return listaCursos;
 
     }
 }
