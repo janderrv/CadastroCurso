@@ -94,6 +94,13 @@ public class BancoDados extends SQLiteOpenHelper {
         db.close();
     }
 
+    void removeAluno(Aluno aluno) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABELA_ALUNO, COLUNA_ALUNO_ID + " = ?", new String[]{String.valueOf(aluno.getCodigo())});
+        db.close();
+    }
+
     void addAluno(Aluno aluno) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -128,6 +135,24 @@ public class BancoDados extends SQLiteOpenHelper {
         return curso;
     }
 
+    Aluno selecionaAluno(int codigo) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABELA_ALUNO, new String[]{COLUNA_ALUNO_ID, COLUNA_NOME_ALUNO, COLUNA_EMAIL, COLUNA_TELEFONE, COLUNA_CURSO_FK},
+                COLUNA_ALUNO_ID + " = ?",
+                new String[]{String.valueOf(codigo)}, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        Aluno aluno = new Aluno(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
+                cursor.getString(2), cursor.getString(3), Integer.parseInt(cursor.getString(4)));
+
+        return aluno;
+    }
+
     void atualizarCurso(Curso curso) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -139,6 +164,22 @@ public class BancoDados extends SQLiteOpenHelper {
 
         db.update(TABELA_CURSO, values, COLUNA_CURSO_ID + " = ?",
                 new String[]{String.valueOf(curso.getCodigo())});
+        db.close();
+    }
+
+    void atualizarAluno(Aluno aluno) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUNA_NOME_ALUNO, aluno.getNome());
+        values.put(COLUNA_EMAIL, aluno.getEmail());
+        values.put(COLUNA_TELEFONE, aluno.getTelefone());
+        values.put(COLUNA_CURSO_FK, aluno.getCodigoCurso());
+
+        db.update(TABELA_ALUNO, values, COLUNA_ALUNO_ID + " = ?",
+                new String[]{String.valueOf(aluno.getCodigo())});
         db.close();
     }
 
@@ -162,6 +203,50 @@ public class BancoDados extends SQLiteOpenHelper {
         }
 
         return listaCursos;
+
+    }
+
+    public List<Curso> listarCursoSpinner() {
+        List<Curso> listaCursos = new ArrayList<Curso>();
+
+        String query = "SELECT * FROM " + TABELA_CURSO;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int cursoid = Integer.valueOf(cursor.getString(0));
+                String nomeCurso = cursor.getString(1);
+                int horas = Integer.valueOf(cursor.getString(2));
+                Curso curso = new Curso(cursoid, nomeCurso, horas);
+                listaCursos.add(curso);
+            } while (cursor.moveToNext());
+        }
+        return listaCursos;
+    }
+
+
+    public List<Aluno> listarAlunos() {
+        List<Aluno> listaAlunos = new ArrayList<Aluno>();
+
+        String query = "SELECT * FROM " + TABELA_ALUNO;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Aluno aluno = new Aluno();
+                aluno.setCodigo(Integer.parseInt(cursor.getString(0)));
+                aluno.setNome(cursor.getString(2));
+                aluno.setEmail(cursor.getString(3));
+                aluno.setTelefone(cursor.getString(3));
+
+                listaAlunos.add(aluno);
+            } while (cursor.moveToNext());
+        }
+
+        return listaAlunos;
 
     }
 }

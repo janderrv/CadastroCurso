@@ -21,7 +21,7 @@ public class Curso extends AppCompatActivity {
     private int horas;
 
     EditText edtNome, edtEmail, edtTelefone, edtCodigo, edtHoras, edtCurso;
-    Button btnLimpar, btnSalvarCurso, btnSalvarAluno, btnExcluir, btnCadastrarCurso, btnNovoCurso;
+    Button btnLimpar, btnSalvarCurso, btnExcluir, btnNovoCurso;
     ListView listCursos;
 
     BancoDados bd = new BancoDados(this);
@@ -79,20 +79,16 @@ public class Curso extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cadastro_curso);
 
-        edtNome = findViewById(R.id.edtNome);
-        edtEmail = findViewById(R.id.edtEmail);
-        edtTelefone = findViewById(R.id.edtTelefone);
         edtCodigo = findViewById(R.id.edtCodigo);
         edtHoras = findViewById(R.id.edtHoras);
         edtCurso = findViewById(R.id.edtCurso);
 
         btnLimpar = findViewById(R.id.btnLimpar);
         btnSalvarCurso = findViewById(R.id.btnSalvarCurso);
-        btnSalvarAluno = findViewById(R.id.btnSalvarAluno);
         btnNovoCurso = findViewById(R.id.btnNovoCurso);
         btnExcluir = findViewById(R.id.btnExcluir);
 
-        listCursos = findViewById(R.id.listCursos);
+        listCursos = findViewById(R.id.listAlunos);
 
         listarCursos();
         btnLimpar.setOnClickListener(new View.OnClickListener() {

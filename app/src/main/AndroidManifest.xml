@@ -21,6 +21,9 @@
         <activity
             android:name=".Curso"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Aluno"
+            android:windowSoftInputMode="stateHidden" />
 
     </application>
 

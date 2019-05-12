@@ -11,11 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="33dp"
         android:text="@string/nome"
+        app:layout_constraintBaseline_toBaselineOf="@+id/edtNome"
         app:layout_constraintEnd_toStartOf="@+id/edtNome"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtEmail"
@@ -23,10 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="28dp"
         android:text="@string/email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtNome" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/edtEmail"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtTelefone"
@@ -34,63 +32,60 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="27dp"
         android:text="@string/telefone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/edtTelefone"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/edtNome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
         android:ems="10"
         android:hint="Nome do aluno"
         android:inputType="textPersonName"
-        app:layout_constraintBaseline_toBaselineOf="@+id/txtNome"
-        app:layout_constraintEnd_toStartOf="@+id/edtCodigo"
-        app:layout_constraintStart_toEndOf="@+id/txtNome" />
+        app:layout_constraintEnd_toStartOf="@+id/edtCodigoAluno"
+        app:layout_constraintStart_toEndOf="@+id/txtNome"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:ems="10"
         android:hint="Email do aluno"
         android:inputType="textEmailAddress"
-        app:layout_constraintBaseline_toBaselineOf="@+id/txtEmail"
-        app:layout_constraintStart_toEndOf="@+id/txtEmail" />
+        app:layout_constraintStart_toEndOf="@+id/txtEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edtCodigoAluno" />
 
     <EditText
         android:id="@+id/edtTelefone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
         android:ems="10"
         android:hint="Telefone do aluno"
         android:inputType="phone"
-        app:layout_constraintBaseline_toBaselineOf="@+id/txtTelefone"
-        app:layout_constraintStart_toEndOf="@+id/txtTelefone" />
+        app:layout_constraintStart_toEndOf="@+id/txtTelefone"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
     <TextView
-        android:id="@+id/txtCurso"
+        android:id="@+id/txtAlunos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="21dp"
-        android:text="@string/curso"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTelefone" />
+        android:text="Lista Alunos"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="45dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtCurso">
 
         <ListView
-            android:id="@+id/listCursos"
+            android:id="@+id/listAlunos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -107,7 +102,6 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="53dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,16 +130,37 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/edtCodigo"
+        android:id="@+id/edtCodigoAluno"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="13dp"
         android:layout_marginRight="13dp"
         android:ems="10"
         android:hint="Código"
+        android:enabled="false"
         android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@+id/edtNome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/edtNome" />
+
+    <TextView
+        android:id="@+id/txtCurso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="22dp"
+        android:text="@string/curso"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtTelefone" />
+
+    <Spinner
+        android:id="@+id/spinnerCurso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintStart_toEndOf="@+id/txtCurso"
+        app:layout_constraintTop_toTopOf="@+id/txtCurso" />
 
 </android.support.constraint.ConstraintLayout>

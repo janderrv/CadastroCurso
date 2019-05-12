@@ -54,5 +54,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void abrirTelaAluno(View view) {
+        Intent intent = new Intent(this, Aluno.class);
+        startActivity(intent);
+    }
+
 
 }
