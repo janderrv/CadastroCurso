@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="cadastrarAluno">Cadastrar Aluno</string>
+    <string name="cadastrarCurso">Cadastrar Curso</string>
+    <string name="pesquisarAluno">Pesquisar Aluno</string>
+    <string name="nome">Nome</string>
+    <string name="email">E-mail</string>
+    <string name="telefone">Telefone</string>
+    <string name="curso">Curso</string>
+    <string name="horas">Horas</string>
+    <string name="limpar">Limpar</string>
+    <string name="salvar">Salvar</string>
+    <string name="excluir">Excluir</string>
+
+</resources>
