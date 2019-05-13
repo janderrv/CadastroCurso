@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Aluno extends AppCompatActivity {
+public class Aluno extends AppCompatActivity implements Parcelable {
 
     private int codigo;
     private int codigoCurso;
@@ -53,6 +56,27 @@ public class Aluno extends AppCompatActivity {
         this.email = _email;
         this.telefone = _telefone;
         this.codigoCurso = _codigoCurso;
+    }
+
+    public static final Creator<Aluno> CREATOR = new Creator<Aluno>() {
+        @Override
+        public Aluno createFromParcel(Parcel in) {
+            return new Aluno(in);
+        }
+
+        @Override
+        public Aluno[] newArray(int size) {
+            return new Aluno[size];
+        }
+    };
+
+    protected Aluno(Parcel in) {
+        codigo = in.readInt();
+        codigoCurso = in.readInt();
+        nome = in.readString();
+        telefone = in.readString();
+        email = in.readString();
+        arrayList = in.createStringArrayList();
     }
 
     public int getCodigo() {
@@ -114,6 +138,18 @@ public class Aluno extends AppCompatActivity {
 
         listarAlunos();
         listarCursosSpinner();
+
+        Intent intent = getIntent();
+        Aluno aluno = intent.getParcelableExtra("aluno");
+
+        if (intent.hasExtra("aluno")) {
+            edtCodigoAluno.setText(String.valueOf(aluno.getCodigo()));
+            edtNome.setText(aluno.getNome());
+            edtEmail.setText(String.valueOf(aluno.getEmail()));
+            edtTelefone.setText(String.valueOf(aluno.getTelefone()));
+            spinnerCurso.setSelection(bd.pegarId(aluno.getCodigoCurso()));
+        }
+
         btnLimpar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,11 +186,10 @@ public class Aluno extends AppCompatActivity {
                 String email = edtEmail.getText().toString();
                 String telefone = edtTelefone.getText().toString();
                 String codigoCurso;
+
                 String curso;
                 try {
-                    codigoCurso = String.valueOf(bd.listarCursoSpinner().get(0).getCodigo());
-                    curso = String.valueOf(bd.listarCursoSpinner().get(1));
-
+                    codigoCurso = String.valueOf(bd.pegarCodigo((int) spinnerCurso.getSelectedItemId()));
                 } catch (Exception e) {
                     codigoCurso = null;
                     curso = null;
@@ -168,7 +203,7 @@ public class Aluno extends AppCompatActivity {
                     edtEmail.setError("Este campo é obrigatório");
                 } else if (telefone.isEmpty()) {
                     edtTelefone.setError("Este campo é obrigatório");
-                } else if (codigoCurso.isEmpty()) {
+                } else if (codigoCurso == null) {
                     Toast.makeText(Aluno.this, "Selecione um curso!", Toast.LENGTH_LONG).show();
                 } else {
                     if (codigo.isEmpty()) {
@@ -205,6 +240,7 @@ public class Aluno extends AppCompatActivity {
                 edtNome.setText(aluno.getNome());
                 edtEmail.setText(String.valueOf(aluno.getEmail()));
                 edtTelefone.setText(String.valueOf(aluno.getTelefone()));
+                spinnerCurso.setSelection(bd.pegarId(aluno.getCodigoCurso()));
             }
         });
     }
@@ -254,4 +290,18 @@ public class Aluno extends AppCompatActivity {
         edtNome.requestFocus();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(String.valueOf(codigo));
+        dest.writeString(nome);
+        dest.writeString(email);
+        dest.writeString(telefone);
+        dest.writeString(String.valueOf(codigoCurso));
+
+    }
 }

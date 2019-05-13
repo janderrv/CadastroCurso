@@ -59,5 +59,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void abrirTelaPesquisarAlunos(View view) {
+        Intent intent = new Intent(this, PesquisarAlunos.class);
+        startActivity(intent);
+    }
+
 
 }

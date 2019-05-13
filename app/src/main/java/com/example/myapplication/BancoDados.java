@@ -225,6 +225,25 @@ public class BancoDados extends SQLiteOpenHelper {
         return listaCursos;
     }
 
+    public int pegarCodigo(int id) {
+        List<Curso> listaCursos = new ArrayList<>();
+        listaCursos = listarCursoSpinner();
+
+        return listaCursos.get(id).getCodigo();
+    }
+
+    public int pegarId(int codigo) {
+        List<Curso> listaCursos = new ArrayList<>();
+        listaCursos = listarCursoSpinner();
+
+        for (Curso c : listaCursos) {
+            if (c.getCodigo() == codigo) {
+                return listaCursos.indexOf(c);
+            }
+        }
+        return codigo;
+    }
+
 
     public List<Aluno> listarAlunos() {
         List<Aluno> listaAlunos = new ArrayList<Aluno>();
@@ -248,5 +267,28 @@ public class BancoDados extends SQLiteOpenHelper {
 
         return listaAlunos;
 
+    }
+
+    public List<Aluno> pesquisar(String aluno) {
+        List<Aluno> listaAlunos = new ArrayList<Aluno>();
+
+        try {
+            SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("select * from " + TABELA_ALUNO + " where " + COLUNA_NOME_ALUNO +
+                    " like ?", new String[]{"%" + aluno + "%"});
+            if (cursor.moveToFirst()) {
+                do {
+                    Aluno aluno1 = new Aluno();
+                    aluno1.setCodigo(Integer.parseInt(cursor.getString(0)));
+                    aluno1.setNome(cursor.getString(2));
+                    aluno1.setEmail(cursor.getString(3));
+                    aluno1.setTelefone(cursor.getString(3));
+                    listaAlunos.add(aluno1);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            listaAlunos = null;
+        }
+        return listaAlunos;
     }
 }
