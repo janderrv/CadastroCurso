@@ -257,9 +257,10 @@ public class BancoDados extends SQLiteOpenHelper {
             do {
                 Aluno aluno = new Aluno();
                 aluno.setCodigo(Integer.parseInt(cursor.getString(0)));
+                aluno.setCodigoCurso(Integer.parseInt(cursor.getString(1)));
                 aluno.setNome(cursor.getString(2));
-                aluno.setEmail(cursor.getString(3));
                 aluno.setTelefone(cursor.getString(3));
+                aluno.setEmail(cursor.getString(4));
 
                 listaAlunos.add(aluno);
             } while (cursor.moveToNext());
@@ -280,9 +281,10 @@ public class BancoDados extends SQLiteOpenHelper {
                 do {
                     Aluno aluno1 = new Aluno();
                     aluno1.setCodigo(Integer.parseInt(cursor.getString(0)));
+                    aluno1.setCodigoCurso(Integer.parseInt(cursor.getString(1)));
                     aluno1.setNome(cursor.getString(2));
-                    aluno1.setEmail(cursor.getString(3));
                     aluno1.setTelefone(cursor.getString(3));
+                    aluno1.setEmail(cursor.getString(4));
                     listaAlunos.add(aluno1);
                 } while (cursor.moveToNext());
             }
